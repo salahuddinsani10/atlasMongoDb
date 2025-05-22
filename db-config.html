@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MongoDB Atlas Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <h1>MongoDB Atlas Configuration</h1>
+    <p>Enter your MongoDB Atlas credentials to generate the connection string:</p>
+    
+    <div class="form-group">
+        <label for="username">MongoDB Username:</label>
+        <input type="text" id="username" placeholder="Your MongoDB Atlas username">
+    </div>
+    
+    <div class="form-group">
+        <label for="password">MongoDB Password:</label>
+        <input type="password" id="password" placeholder="Your MongoDB Atlas password">
+    </div>
+    
+    <div class="form-group">
+        <label for="cluster">Cluster Name:</label>
+        <input type="text" id="cluster" value="labcluster" placeholder="Your cluster name (e.g., labcluster)">
+    </div>
+    
+    <div class="form-group">
+        <label for="database">Database Name:</label>
+        <input type="text" id="database" value="studentsDB" placeholder="Your database name (e.g., studentsDB)">
+    </div>
+    
+    <button onclick="generateConnectionString()">Generate Connection String</button>
+    
+    <div class="result" id="result" style="display: none;">
+        <h3>Your MongoDB Connection String:</h3>
+        <pre id="connectionString"></pre>
+        <p>Copy this connection string and update your .env file with it.</p>
+    </div>
+    
+    <script>
+        function generateConnectionString() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const cluster = document.getElementById('cluster').value;
+            const database = document.getElementById('database').value;
+            
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+            
+            const connectionString = `MONGODB_URI=mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${database}?retryWrites=true&w=majority`;
+            
+            document.getElementById('connectionString').textContent = connectionString;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
